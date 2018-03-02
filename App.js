@@ -1,9 +1,11 @@
 import React from 'react';
-import { StyleSheet, Text, View, Navigator } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
+import { StackNavigator } from 'react-navigation';
 
 import TaskList from './components/TaskList';
+import TaskFrom from './components/TaskForm';
 
-export default class App extends React.Component {
+class App extends React.Component {
 constructor(props){
   super(props);
   this.state = {
@@ -18,35 +20,16 @@ constructor(props){
 }
 
 onAddStarted(){
-  this.nav.push({
-    name: 'taskform',
-  });
-}
-
-renderScene(route, nav){
-  switch(route.name){
-    case 'taskform':
-      return <Text>Add form comes here!</Text>
-    default: 
-      return (
-        <View style={styles.container}>
-          <TaskList 
-            onAddStarted={this.onAddStarted.bind(this)}
-            todos={this.state.todos} />
-        </View>
-      );
-
-  }
+  this.props.navigation.navigate('TaskForm')
 }
 
   render() {
     return (
-      <Navigator 
-        initialRoute={{name: 'tasklist', index: 0}} 
-        ref={((nav) => {
-          this.nav = navl
-        })}
-        renderScene={this.renderScene.bind(this)}/>
+      <View style={styles.container}>
+          <TaskList 
+            onAddStarted={this.onAddStarted.bind(this)}
+            todos={this.state.todos} />
+        </View>
     );
 
   }
@@ -60,3 +43,10 @@ const styles = StyleSheet.create({
     // justifyContent: 'center',    
   },
 });
+
+
+export default NavigationApp = StackNavigator({
+  TaskList: { screen: App },
+  TaskForm: { screen: TaskForm }
+})
+
